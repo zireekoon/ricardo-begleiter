@@ -18,11 +18,13 @@ test("Auswahl hat drei Knöpfe in Reihenfolge", () => {
   const ids = [...auswahlAnsicht().matchAll(/data-kategorie="(\w+)"/g)].map(m => m[1]);
   assert.deepEqual(ids, ["moebel", "elektronik", "anderes"]);
   assert.match(auswahlAnsicht(), /auch Elektrogeräte/);
+  assert.match(auswahlAnsicht(), /<h2>Was ist es\?<\/h2>/);
 });
 test("Checkliste vor Ricardo: Kopieren-Link und Zurück, kein Veröffentlicht", () => {
   const h = checklisteAnsicht(kategorieFinden("moebel"), false);
   assert.match(h, /data-aktion="kopieren-oeffnen"[^>]*href="https:\/\/www\.ricardo\.ch\//);
   assert.match(h, /data-aktion="zurueck"/);
+  assert.match(h.match(/<button[^>]*data-aktion="zurueck"[^>]*>/)[0], /knopf-klein/);
   assert.doesNotMatch(h, /data-aktion="veroeffentlicht"/);
   assert.equal((h.match(/<li/g) || []).length, 7);
 });

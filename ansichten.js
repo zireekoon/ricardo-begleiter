@@ -33,6 +33,7 @@ export function auswahlAnsicht() {
   </button>`
   ).join("\n");
   return `<section class="ansicht">
+  <h2>${escapeHtml(TEXTE.wasIstEs)}</h2>
 ${knoepfe}
 </section>`;
 }
@@ -52,7 +53,7 @@ export function checklisteAnsicht(kategorie, laufend) {
   <button type="button" class="knopf knopf-neben" data-aktion="nochmals-kopieren">${escapeHtml(TEXTE.nochmalsKopieren)}</button>
   <button type="button" class="knopf knopf-klein" data-aktion="abbrechen">${escapeHtml(TEXTE.abbrechen)}</button>`
     : `<a class="knopf knopf-haupt" data-aktion="kopieren-oeffnen" href="${escapeHtml(RICARDO_LINK)}" target="_blank" rel="noopener">${escapeHtml(TEXTE.kopierenUndOeffnen)}</a>
-  <button type="button" class="knopf knopf-neben" data-aktion="zurueck">${escapeHtml(TEXTE.zurueck)}</button>`;
+  <button type="button" class="knopf knopf-klein" data-aktion="zurueck">${escapeHtml(TEXTE.zurueck)}</button>`;
   return `<section class="ansicht">
   <h2>${escapeHtml(TEXTE.soGehts)}</h2>
   ${hinweis}
