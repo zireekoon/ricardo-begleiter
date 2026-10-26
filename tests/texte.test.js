@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { KATEGORIEN, TEXTE, kategorieFinden, RICARDO_LINK } from "../texte.js";
+import * as texte from "../texte.js";
+import { KATEGORIEN, TEXTE, kategorieFinden } from "../texte.js";
 
 const FUSS = "— Der Artikel befindet sich in unserer Brockenstube und kann während der Öffnungszeiten besichtigt und vor Ort gekauft werden, sofern noch kein Gebot abgegeben wurde\n— FRAGEN UND ANLIEGEN WERDEN MONTAG BIS DONNERSTAG BEANTWORTET";
 
@@ -22,6 +23,7 @@ test("Elektronik und Anderes ohne Abholungs-Zeile", () => {
 
 test("Checklisten exakt", () => {
   assert.deepEqual(kategorieFinden("moebel").schritte, [
+    "Ricardo-App öffnen",
     "Foto machen, Entwurf erstellen",
     "Obersten Entwurf wählen (mehr Bilder möglich)",
     "Produkttyp wählen, Breite, Höhe, Tiefe eintragen",
@@ -31,6 +33,7 @@ test("Checklisten exakt", () => {
     "Veröffentlichen",
   ]);
   assert.deepEqual(kategorieFinden("elektronik").schritte, [
+    "Ricardo-App öffnen",
     "Foto machen, Entwurf erstellen",
     "Obersten Entwurf wählen, Foto eingeschaltet hinzufügen",
     "Produkttyp wählen",
@@ -39,8 +42,9 @@ test("Checklisten exakt", () => {
     "Lieferung: Versand aktivieren",
     "Veröffentlichen",
   ]);
-  assert.equal(kategorieFinden("anderes").schritte[1], "Obersten Entwurf wählen");
-  assert.equal(kategorieFinden("anderes").schritte.length, 7);
+  assert.equal(kategorieFinden("anderes").schritte[0], "Ricardo-App öffnen");
+  assert.equal(kategorieFinden("anderes").schritte[2], "Obersten Entwurf wählen");
+  assert.equal(kategorieFinden("anderes").schritte.length, 8);
 });
 
 test("Hinweis nur bei Elektronik", () => {
@@ -58,8 +62,10 @@ test("unbekannte Kategorie", () => {
   assert.equal(kategorieFinden("auto"), undefined);
 });
 
-test("Ricardo-Link ist https", () => {
-  assert.match(RICARDO_LINK, /^https:\/\/www\.ricardo\.ch\//);
+test("Knopf kopiert nur, kein Ricardo-Link mehr", () => {
+  assert.equal(TEXTE.kopieren, "Text kopieren");
+  assert.equal("kopierenUndOeffnen" in TEXTE, false);
+  assert.equal("RICARDO_LINK" in texte, false);
 });
 
 test("Rückmeldung nach dem Kopieren", () => {

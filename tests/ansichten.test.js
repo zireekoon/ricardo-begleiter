@@ -21,18 +21,21 @@ test("Auswahl hat drei Knöpfe in Reihenfolge", () => {
   assert.match(auswahlAnsicht(), /auch Elektrogeräte/);
   assert.match(auswahlAnsicht(), /<h2>Was ist es\?<\/h2>/);
 });
-test("Checkliste vor Ricardo: Kopieren-Link und Zurück, kein Veröffentlicht", () => {
+test("Checkliste vor Ricardo: Kopieren-Knopf und Zurück, kein Link, kein Veröffentlicht", () => {
   const h = checklisteAnsicht(kategorieFinden("moebel"), false);
-  assert.match(h, /data-aktion="kopieren-oeffnen"[^>]*href="https:\/\/www\.ricardo\.ch\//);
+  assert.match(h, /<button type="button"[^>]*data-aktion="kopieren"[^>]*>Text kopieren<\/button>/);
+  assert.doesNotMatch(h, /<a[\s>]/);
+  assert.doesNotMatch(h, /href=|target=/);
   assert.match(h, /data-aktion="zurueck"/);
   assert.match(h.match(/<button[^>]*data-aktion="zurueck"[^>]*>/)[0], /knopf-klein/);
   assert.doesNotMatch(h, /data-aktion="veroeffentlicht"/);
-  assert.equal((h.match(/<li/g) || []).length, 7);
+  assert.equal((h.match(/<li/g) || []).length, 8);
+  assert.match(h, /<li>Ricardo-App öffnen<\/li>/);
 });
 test("Checkliste laufend: Veröffentlicht, nochmals kopieren, abbrechen", () => {
   const h = checklisteAnsicht(kategorieFinden("anderes"), true);
   for (const a of ["veroeffentlicht", "nochmals-kopieren", "abbrechen"]) assert.match(h, new RegExp(`data-aktion="${a}"`));
-  assert.doesNotMatch(h, /data-aktion="kopieren-oeffnen"/);
+  assert.doesNotMatch(h, /data-aktion="kopieren"/);
 });
 test("Hinweis nur bei Elektronik", () => {
   assert.match(checklisteAnsicht(kategorieFinden("elektronik"), false), /class="hinweis"/);

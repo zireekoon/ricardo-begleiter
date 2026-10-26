@@ -23,16 +23,13 @@
 //     bei dieser Datei oben rechts unter «History») und speichere nochmals.
 // ============================================================================
 
-// Link zur Ricardo-Verkaufsseite (wird von der App nur als Link geöffnet).
-export const RICARDO_LINK = "https://www.ricardo.ch/de/verkaufen/";
-
 // Alle Texte der Oberfläche.
 export const TEXTE = {
   heuteEingestellt: "Heute eingestellt",
   neuerArtikel: "Neuer Artikel",
   wasIstEs: "Was ist es?",
   soGehts: "So geht's in Ricardo",
-  kopierenUndOeffnen: "Text kopieren und Ricardo öffnen",
+  kopieren: "Text kopieren",
   nochmalsKopieren: "Text nochmals kopieren",
   veroeffentlicht: "Veröffentlicht",
   zurueck: "Zurück",
@@ -59,6 +56,7 @@ export const KATEGORIEN = [
     symbol: "🪑",
     hinweis: null,
     schritte: [
+      "Ricardo-App öffnen",
       "Foto machen, Entwurf erstellen",
       "Obersten Entwurf wählen (mehr Bilder möglich)",
       "Produkttyp wählen, Breite, Höhe, Tiefe eintragen",
@@ -79,6 +77,7 @@ ${FUSS}`,
     hinweis:
       "Mach auch ein Foto, wo es eingeschaltet ist, wenn es noch funktioniert. Nicht bei Sammlerobjekten.",
     schritte: [
+      "Ricardo-App öffnen",
       "Foto machen, Entwurf erstellen",
       "Obersten Entwurf wählen, Foto eingeschaltet hinzufügen",
       "Produkttyp wählen",
@@ -97,6 +96,7 @@ ${FUSS}`,
     symbol: "📦",
     hinweis: null,
     schritte: [
+      "Ricardo-App öffnen",
       "Foto machen, Entwurf erstellen",
       "Obersten Entwurf wählen",
       "Produkttyp wählen",

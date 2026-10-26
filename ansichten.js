@@ -2,7 +2,7 @@
 // Alle Texte kommen aus texte.js und gehen durch escapeHtml.
 // Die Schaltflächen tragen ein data-aktion-Attribut; die App liest es beim Klicken.
 
-import { TEXTE, RICARDO_LINK, KATEGORIEN } from "./texte.js";
+import { TEXTE, KATEGORIEN } from "./texte.js";
 
 // Macht aus Text etwas, das im HTML sicher angezeigt wird.
 export function escapeHtml(s) {
@@ -41,7 +41,7 @@ ${knoepfe}
 // Checkliste für eine Kategorie. Oben steht gross, um welche Art Artikel es geht
 // (Symbol und Name), damit man beim Weitermachen oder nach einem Fehltipp sofort sieht,
 // welche Checkliste und welcher Text gerade gelten.
-// laufend = false: vor dem Einstellen in Ricardo (Text kopieren und Ricardo öffnen).
+// laufend = false: vor dem Einstellen in Ricardo (Text kopieren).
 // laufend = true: Artikel läuft schon (veröffentlichen, nochmals kopieren, abbrechen).
 export function checklisteAnsicht(kategorie, laufend) {
   const hinweis = kategorie.hinweis
@@ -54,7 +54,7 @@ export function checklisteAnsicht(kategorie, laufend) {
     ? `<button type="button" class="knopf knopf-haupt" data-aktion="veroeffentlicht">${escapeHtml(TEXTE.veroeffentlicht)}</button>
   <button type="button" class="knopf knopf-neben" data-aktion="nochmals-kopieren">${escapeHtml(TEXTE.nochmalsKopieren)}</button>
   <button type="button" class="knopf knopf-klein" data-aktion="abbrechen">${escapeHtml(TEXTE.abbrechen)}</button>`
-    : `<a class="knopf knopf-haupt" data-aktion="kopieren-oeffnen" href="${escapeHtml(RICARDO_LINK)}" target="_blank" rel="noopener">${escapeHtml(TEXTE.kopierenUndOeffnen)}</a>
+    : `<button type="button" class="knopf knopf-haupt" data-aktion="kopieren">${escapeHtml(TEXTE.kopieren)}</button>
   <button type="button" class="knopf knopf-klein" data-aktion="zurueck">${escapeHtml(TEXTE.zurueck)}</button>`;
   return `<section class="ansicht">
   <p class="kategorie"><span aria-hidden="true">${escapeHtml(kategorie.symbol)}</span> ${escapeHtml(kategorie.name)}</p>

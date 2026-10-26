@@ -39,8 +39,8 @@ let aktuell = null;
 // Doppeltipp zählt als zwei Klicks, und der zweite würde sonst den Knopf der neuen Ansicht treffen.
 // Darum werden Klicks nach jedem Bildschirmwechsel kurz ignoriert (Zeiten in Millisekunden).
 const SPERRE_MS = 700;
-// Nach "Text kopieren und Ricardo öffnen" etwas länger: Dort wartet gleich der "Veröffentlicht"-Knopf.
-const SPERRE_NACH_RICARDO_MS = 1500;
+// Nach "Text kopieren" etwas länger: An derselben Stelle erscheint gleich der "Veröffentlicht"-Knopf.
+const SPERRE_NACH_KOPIEREN_MS = 1500;
 // So lange zeigt die App "Text kopiert ✓".
 const KOPIERT_ANZEIGE_MS = 2000;
 
@@ -115,8 +115,7 @@ app.addEventListener("focusin", (event) => {
 });
 
 app.addEventListener("click", (event) => {
-  // Kurz nach einem Bildschirmwechsel: ignorieren. preventDefault, damit auch der Ricardo-Link
-  // nicht aufgeht, ohne dass der Text kopiert wurde.
+  // Kurz nach einem Bildschirmwechsel: ignorieren.
   if (Date.now() < gesperrtBis) {
     event.preventDefault();
     return;
@@ -140,21 +139,18 @@ app.addEventListener("click", (event) => {
       break;
     }
 
-    case "kopieren-oeffnen": {
-      // Kein preventDefault: der Link soll Ricardo öffnen.
-      // Die Ansicht wird erst nach dem Klick getauscht, sonst würde der Link verschwinden,
-      // bevor der Browser ihn öffnen konnte.
+    case "kopieren": {
+      // Kopiert den Text; danach öffnet man selbst die Ricardo-App (Schritt 1 der Checkliste).
       const kategorie = aktuell;
       if (!kategorie) return;
       const kopiert = kopieren(kategorie);
       artikelBeginnen(speicher, kategorie.id);
-      setTimeout(() => {
-        zeige(checklisteAnsicht(kategorie, true));
-        gesperrtBis = Date.now() + SPERRE_NACH_RICARDO_MS;
-        kopiert.then((geklappt) => {
-          if (!geklappt) kopierFehlerZeigen(kategorie);
-        });
-      }, 0);
+      zeige(checklisteAnsicht(kategorie, true));
+      gesperrtBis = Date.now() + SPERRE_NACH_KOPIEREN_MS;
+      kopiert.then((geklappt) => {
+        if (geklappt) kopiertZeigen();
+        else kopierFehlerZeigen(kategorie);
+      });
       break;
     }
 
