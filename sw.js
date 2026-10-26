@@ -58,8 +58,17 @@ async function kopieFinden(cache, anfrage) {
 }
 
 async function netzZuerst(event, anfrage) {
-  const cache = await caches.open(CACHE_NAME);
-  const kopie = await kopieFinden(cache, anfrage);
+  // Der Zwischenspeicher ist nur eine Zugabe. Geht beim Öffnen oder Suchen etwas schief
+  // (das kann auf dem iPad vorkommen), läuft die App genau wie ohne Service Worker: nur übers Netz.
+  let cache = null;
+  let kopie;
+  try {
+    cache = await caches.open(CACHE_NAME);
+    kopie = await kopieFinden(cache, anfrage);
+  } catch {
+    cache = null;
+    kopie = undefined;
+  }
   // Nur wenn es eine Kopie gibt, wird die Wartezeit begrenzt. Ohne Kopie gäbe es nichts anderes
   // zu zeigen; ein Abbruch würde aus einer langsamen Seite nur einen Fehler machen.
   const abbruch = new AbortController();
@@ -68,9 +77,17 @@ async function netzZuerst(event, anfrage) {
     // "no-cache": den Browser-Zwischenspeicher beim Server nachfragen lassen, damit
     // wirklich die neueste Fassung ankommt.
     const antwort = await fetch(anfrage, { cache: "no-cache", signal: abbruch.signal });
-    if (antwort.ok) {
-      // Kopie auffrischen; scheitert das Speichern, wird trotzdem die Netz-Antwort gezeigt.
-      event.waitUntil(cache.put(anfrage, antwort.clone()).catch(() => {}));
+    // Antwortet der Server mit einem Fehler (z.B. 404 oder 500), ist die Kopie besser.
+    // Eine Weiterleitung ("opaqueredirect") ist kein Fehler und geht unverändert durch.
+    if (!antwort.ok && antwort.type !== "opaqueredirect" && kopie) return kopie;
+    if (antwort.ok && cache) {
+      // Kopie auffrischen. Scheitert das Speichern, wird trotzdem die Netz-Antwort gezeigt;
+      // darum steht auch waitUntil in einem eigenen try (es wirft, wenn der Worker schon beendet ist).
+      try {
+        event.waitUntil(cache.put(anfrage, antwort.clone()).catch(() => {}));
+      } catch {
+        // Ohne aufgefrischte Kopie geht es weiter.
+      }
     }
     return antwort;
   } catch {
