@@ -141,3 +141,10 @@ if (laufend) {
   if (gespeichert !== null) artikelAbbrechen(speicher); // Unbekannte Kategorie: verwerfen.
   zeigeStart();
 }
+
+// Offline-Betrieb: den Service Worker (sw.js) anmelden. Ein Fehler hier darf die App nie stören.
+try {
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+} catch {
+  // Ohne Service Worker läuft die App einfach nur online.
+}
