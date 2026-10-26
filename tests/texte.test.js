@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { KATEGORIEN, kategorieFinden, RICARDO_LINK } from "../texte.js";
+import { KATEGORIEN, TEXTE, kategorieFinden, RICARDO_LINK } from "../texte.js";
 
 const FUSS = "— Der Artikel befindet sich in unserer Brockenstube und kann während der Öffnungszeiten besichtigt und vor Ort gekauft werden, sofern noch kein Gebot abgegeben wurde\n— FRAGEN UND ANLIEGEN WERDEN MONTAG BIS DONNERSTAG BEANTWORTET";
 
@@ -60,4 +60,16 @@ test("unbekannte Kategorie", () => {
 
 test("Ricardo-Link ist https", () => {
   assert.match(RICARDO_LINK, /^https:\/\/www\.ricardo\.ch\//);
+});
+
+test("Rückmeldung nach dem Kopieren", () => {
+  assert.equal(TEXTE.kopiert, "Text kopiert ✓");
+});
+
+test("Alle Texte sind nicht leer, {n} bleibt erhalten", () => {
+  for (const [name, wert] of Object.entries(TEXTE)) {
+    assert.equal(typeof wert, "string", name);
+    assert.ok(wert.trim().length > 0, `${name} ist leer`);
+  }
+  assert.ok(TEXTE.artikelNr.includes("{n}"));
 });

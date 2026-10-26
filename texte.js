@@ -1,6 +1,27 @@
-// Hier stehen alle Texte der App. Du kannst sie ändern.
-// Ändere nur den Text zwischen den Anführungszeichen.
-// Das Zeichen \n bedeutet: neue Zeile.
+// ============================================================================
+// HIER STEHEN ALLE TEXTE DER APP. Du darfst sie ändern.
+//
+// So geht es sicher. Bitte genau beachten, sonst bleibt die App leer:
+//
+//  1. Ändere nur den Text zwischen den Anführungszeichen "…".
+//     Bei den langen Beschreibungen und beim Fusstext steht der Text stattdessen
+//     zwischen zwei schrägen Strichen ` … ` (Backticks).
+//  2. Lass die Anführungszeichen, die schrägen Striche und das Komma am Ende
+//     jeder Zeile stehen. Fehlt eines davon, bleibt die ganze App leer.
+//  3. Im Text selbst darf kein gerades Anführungszeichen " vorkommen.
+//     Schreibe stattdessen « » oder „ “. Das Zeichen ' ist erlaubt.
+//     In den Beschreibungen zwischen ` … ` darf kein schräger Strich ` vorkommen.
+//  4. Lass {n} unverändert: Dort setzt die App die Zahl ein.
+//     Lass auch ${FUSS} unverändert: Dort setzt die App den Fusstext ein.
+//  5. Eine neue Zeile (Enter) ist nur in den langen Beschreibungen zwischen
+//     ` … ` erlaubt. Alle anderen Texte müssen in einer einzigen Zeile stehen.
+//  6. Was links vom Doppelpunkt steht (z.B. neuerArtikel:), nie ändern.
+//  7. Ändere immer nur eine Sache auf einmal. Nach dem Speichern auf github.com
+//     1 bis 2 Minuten warten, dann die App öffnen und prüfen.
+//     Erscheint nur «Die App lädt …» oder ein leerer Bildschirm, steckt ein
+//     Fehler im Text. Mach deine Änderung dann rückgängig (der alte Stand steht
+//     bei dieser Datei oben rechts unter «History») und speichere nochmals.
+// ============================================================================
 
 // Link zur Ricardo-Verkaufsseite (wird von der App nur als Link geöffnet).
 export const RICARDO_LINK = "https://www.ricardo.ch/de/verkaufen/";
@@ -20,12 +41,16 @@ export const TEXTE = {
   artikelNr: "Das war Artikel Nr. {n} heute",
   naechster: "Nächster Artikel",
   kopierFehler: "Kopieren hat nicht geklappt. Halte den Finger auf den Text und wähle «Kopieren».",
+  kopiert: "Text kopiert ✓",
 };
 
-// Fusstext, der bei jeder Beschreibung unten steht.
-const FUSS = "— Der Artikel befindet sich in unserer Brockenstube und kann während der Öffnungszeiten besichtigt und vor Ort gekauft werden, sofern noch kein Gebot abgegeben wurde\n— FRAGEN UND ANLIEGEN WERDEN MONTAG BIS DONNERSTAG BEANTWORTET";
+// Fusstext, der bei jeder Beschreibung unten steht (siehe ${FUSS} weiter unten).
+const FUSS = `— Der Artikel befindet sich in unserer Brockenstube und kann während der Öffnungszeiten besichtigt und vor Ort gekauft werden, sofern noch kein Gebot abgegeben wurde
+— FRAGEN UND ANLIEGEN WERDEN MONTAG BIS DONNERSTAG BEANTWORTET`;
 
 // Die drei Kategorien, in der Reihenfolge, in der sie angezeigt werden.
+// Bei zusatz und hinweis bedeutet null: kein Text. Soll dort ein Text erscheinen,
+// schreibe ihn in Anführungszeichen an die Stelle von null.
 export const KATEGORIEN = [
   {
     id: "moebel",
@@ -42,8 +67,9 @@ export const KATEGORIEN = [
       "Lieferung: nur Abholung",
       "Veröffentlichen",
     ],
-    beschreibung:
-      "— Alters- und gebrauchsbedingte Spuren vorhanden\n— Kein Versand – nur Abholung\n" + FUSS,
+    beschreibung: `— Alters- und gebrauchsbedingte Spuren vorhanden
+— Kein Versand – nur Abholung
+${FUSS}`,
   },
   {
     id: "elektronik",
@@ -61,7 +87,8 @@ export const KATEGORIEN = [
       "Lieferung: Versand aktivieren",
       "Veröffentlichen",
     ],
-    beschreibung: "— Alters- und gebrauchsbedingte Spuren vorhanden\n" + FUSS,
+    beschreibung: `— Alters- und gebrauchsbedingte Spuren vorhanden
+${FUSS}`,
   },
   {
     id: "anderes",
@@ -78,7 +105,8 @@ export const KATEGORIEN = [
       "Lieferung: Versand aktivieren",
       "Veröffentlichen",
     ],
-    beschreibung: "— Alters- und gebrauchsbedingte Spuren vorhanden\n" + FUSS,
+    beschreibung: `— Alters- und gebrauchsbedingte Spuren vorhanden
+${FUSS}`,
   },
 ];
 
