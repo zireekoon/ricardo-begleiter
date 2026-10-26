@@ -69,6 +69,37 @@ h2 {
   line-height: 1.2;
 }
 
+/* Die Meldung aus index.html, solange die App nicht gestartet ist. Sie erscheint erst
+   nach 1 Sekunde, damit sie beim normalen Start nicht kurz aufblitzt. */
+.laedt {
+  text-align: center;
+  animation: laedt-warten 1s both;
+}
+
+@keyframes laedt-warten {
+  0%,
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Gross über der Checkliste: Symbol und Name der Kategorie, z.B. "Möbel". */
+.kategorie {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--haupt);
+}
+
+/* Kurze Bestätigung, z.B. "Text kopiert ✓". */
+.rueckmeldung {
+  font-weight: 700;
+  color: var(--haupt);
+}
+
 #kopierfehler {
   margin-top: 24px;
   text-align: left;
@@ -126,6 +157,11 @@ h2 {
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  /* Langes Drücken soll keine Vorschau und kein Textmenü öffnen: Bei einem Link würde
+     sonst Ricardo ohne Kopieren aufgehen. */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .knopf:active {

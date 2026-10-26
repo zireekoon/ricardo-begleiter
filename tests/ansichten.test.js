@@ -6,6 +6,7 @@ import {
   checklisteAnsicht,
   geschafftAnsicht,
   kopierFehlerAnsicht,
+  kopiertMeldung,
   escapeHtml,
 } from "../ansichten.js";
 import { kategorieFinden } from "../texte.js";
@@ -50,4 +51,32 @@ test("Texte werden escaped", () => {
 test("Kopierfehler zeigt Text", () => {
   const h = kopierFehlerAnsicht("Zeile 1\nZeile 2");
   assert.match(h, /<textarea[^>]*readonly/); assert.match(h, /Zeile 1\nZeile 2/);
+});
+test("Checkliste nennt oben die Kategorie (Symbol und Name), vor der Überschrift", () => {
+  for (const id of ["moebel", "elektronik", "anderes"]) {
+    const k = kategorieFinden(id);
+    for (const laufend of [false, true]) {
+      const h = checklisteAnsicht(k, laufend);
+      const zeile = h.match(/<p class="kategorie">([\s\S]*?)<\/p>/);
+      assert.ok(zeile, `${id}: Kategorie-Zeile fehlt`);
+      assert.ok(zeile[1].includes(k.name), `${id}: Name fehlt`);
+      assert.ok(zeile[1].includes(k.symbol), `${id}: Symbol fehlt`);
+      assert.ok(h.indexOf('class="kategorie"') < h.indexOf("<h2>"), `${id}: Kategorie muss über der Überschrift stehen`);
+    }
+  }
+  assert.match(checklisteAnsicht(kategorieFinden("moebel"), false), /Möbel/);
+  assert.match(checklisteAnsicht(kategorieFinden("elektronik"), true), /Elektronik/);
+  assert.doesNotMatch(checklisteAnsicht(kategorieFinden("moebel"), false), /Elektronik/);
+});
+test("Kategorie-Name und Symbol werden escaped", () => {
+  const k = { id: "x", name: "<b>Möbel</b>", symbol: "<i>", hinweis: null, schritte: [], beschreibung: "" };
+  const h = checklisteAnsicht(k, true);
+  assert.match(h, /&lt;b&gt;Möbel&lt;\/b&gt;/);
+  assert.match(h, /&lt;i&gt;/);
+  assert.doesNotMatch(h, /<b>/);
+});
+test("Kopiert-Meldung zeigt den Text aus texte.js", () => {
+  const h = kopiertMeldung();
+  assert.match(h, /id="kopiert"/);
+  assert.match(h, /Text kopiert ✓/);
 });

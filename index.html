@@ -12,7 +12,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main id="app"></main>
+  <main id="app">
+    <!-- Diese Meldung steht nur da, bis die App gestartet ist; dann ersetzt app.js sie.
+         Sie steht hier und nicht in texte.js, weil sie auch dann erscheinen muss,
+         wenn in texte.js ein Fehler steckt. -->
+    <p class="laedt">Die App lädt … Wenn nichts erscheint: App schliessen und neu öffnen. Hilft das nicht, der Ladenleitung Bescheid geben.</p>
+  </main>
   <script type="module" src="app.js"></script>
 </body>
 </html>

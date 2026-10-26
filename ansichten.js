@@ -38,7 +38,9 @@ ${knoepfe}
 </section>`;
 }
 
-// Checkliste für eine Kategorie.
+// Checkliste für eine Kategorie. Oben steht gross, um welche Art Artikel es geht
+// (Symbol und Name), damit man beim Weitermachen oder nach einem Fehltipp sofort sieht,
+// welche Checkliste und welcher Text gerade gelten.
 // laufend = false: vor dem Einstellen in Ricardo (Text kopieren und Ricardo öffnen).
 // laufend = true: Artikel läuft schon (veröffentlichen, nochmals kopieren, abbrechen).
 export function checklisteAnsicht(kategorie, laufend) {
@@ -55,6 +57,7 @@ export function checklisteAnsicht(kategorie, laufend) {
     : `<a class="knopf knopf-haupt" data-aktion="kopieren-oeffnen" href="${escapeHtml(RICARDO_LINK)}" target="_blank" rel="noopener">${escapeHtml(TEXTE.kopierenUndOeffnen)}</a>
   <button type="button" class="knopf knopf-klein" data-aktion="zurueck">${escapeHtml(TEXTE.zurueck)}</button>`;
   return `<section class="ansicht">
+  <p class="kategorie"><span aria-hidden="true">${escapeHtml(kategorie.symbol)}</span> ${escapeHtml(kategorie.name)}</p>
   <h2>${escapeHtml(TEXTE.soGehts)}</h2>
   ${hinweis}
   <ol class="schritte">${schritte}</ol>
@@ -70,6 +73,11 @@ export function geschafftAnsicht(nummer) {
   <p>${escapeHtml(text)}</p>
   <button type="button" class="knopf knopf-haupt" data-aktion="naechster">${escapeHtml(TEXTE.naechster)}</button>
 </section>`;
+}
+
+// Kurze Bestätigung "Text kopiert ✓"; die App hängt sie für ein paar Sekunden unter den Knopf.
+export function kopiertMeldung() {
+  return `<p id="kopiert" class="rueckmeldung" role="status">${escapeHtml(TEXTE.kopiert)}</p>`;
 }
 
 // Bildschirm, wenn das automatische Kopieren nicht geklappt hat: der Text steht zum Markieren bereit.
